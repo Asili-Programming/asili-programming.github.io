@@ -12,5 +12,8 @@ GitHub Pages serves it from the `main` branch.
 - The VS Code extension is [Asili-Programming/asili-vscode](https://github.com/Asili-Programming/asili-vscode),
   and the browser playground is [Asili-Programming/asili-playground](https://github.com/Asili-Programming/asili-playground).
 
+The plan for the site (requirements, architecture, app flow, design brief, implementation plan) is
+in [`docs/`](docs/README.md).
+
 To preview locally, open `index.html` in a browser. Links to `Asili/` resolve only after the API
 reference has been deployed.
