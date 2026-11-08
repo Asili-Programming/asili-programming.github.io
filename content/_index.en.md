@@ -14,7 +14,7 @@ Asili is a programming language whose keywords and standard library are in Swahi
 
 <p class="cta">
 <a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Get started</a>
-<a class="btn ghost" href="https://github.com/Asili-Programming/asili-playground">Browser playground</a>
+<a class="btn ghost" href="/playground/">Browser playground</a>
 </p>
 
 </section>
@@ -23,7 +23,7 @@ Asili is a programming language whose keywords and standard library are in Swahi
 
 The entry point is `kuu`. `weka` declares a value, and `chapisha` prints it.
 
-```
+```asili
 leta hisabati
 
 kazi kuu(hoja: Orodha<Neno>) -> Tupu {
@@ -34,7 +34,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 `kazi` (function), `weka` (let), `ikiwa` (if), `linganisha` (match), `rejesha` (return), `leta` (import a module).
 
-[More sample programs (karibu, sifa, makosa) →](https://github.com/Asili-Programming/asili-playground/tree/main/samples)
+[More sample programs (karibu, sifa, makosa) →](/playground/)
 
 ## Why Asili?
 

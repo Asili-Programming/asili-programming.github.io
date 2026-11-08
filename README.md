@@ -19,23 +19,50 @@ The website for Asili at <https://asili-programming.github.io>. It is built with
 
 ## Build locally
 
-Install [Zola 0.19.2](https://github.com/getzola/zola/releases/tag/v0.19.2), then:
+Install [Zola 0.19.2](https://github.com/getzola/zola/releases/tag/v0.19.2), [`wasm-pack`](https://rustwasm.github.io/wasm-pack/),
+and a `pata` binary built from Asili (`cargo build --release -p pata-cli` in the Asili checkout).
+Clone [asili-playground](https://github.com/Asili-Programming/asili-playground) beside this repository
+and build its engine (`./build.sh`, with `ASILI_DIR` pointing at Asili). Then:
 
 ```bash
 python3 scripts/check_site.py sources
-zola serve            # preview at http://127.0.0.1:1111
-zola build            # writes public/
-python3 scripts/check_site.py build
+zola build --base-url http://127.0.0.1:8080   # local links; the default is the public address
 ```
 
-`public/` is generated and not committed.
+Copy the playground into the built site, then run the gates:
+
+```bash
+./scripts/copy_playground.sh ../asili-playground public
+python3 scripts/check_site.py build
+python3 scripts/check_site.py playground
+PATA=/path/to/pata python3 scripts/check_samples.py --playground ../asili-playground
+python3 -m http.server 8080 --bind 127.0.0.1 --directory public
+```
+
+`public/` is generated and not committed. `zola serve` also works for editing text, but it does not
+include the playground, so the playground link will not resolve in it.
+
+## Gates
+
+| Gate | Where it runs | What it checks |
+| --- | --- | --- |
+| `check_site.py sources` | every pull request | every page has its twin in the other language; no folder is named after another repo |
+| `zola build` and `check_site.py build` | every pull request | the site builds; internal links resolve; the home page is under 100 KB |
+| `check_site.py playground` | every pull request | the engine (gzip) is under 1,000,000 bytes and the first load under 1,200,000 bytes |
+| `check_samples.py` | every pull request | every `asili` code block on the site and every playground sample compiles with `pata` built from Asili's `main` |
+| Lighthouse (`lighthouserc.json`) | every pull request | performance at least 90, accessibility at least 95, for the home page, install page and playground |
+| `links.yml` | weekly | external links (lychee), with retries |
+| Deploy | push to `main` | the Pages artifact from the build, once the Pages source is set to GitHub Actions |
+
+`site.yml` also runs on `repository_dispatch` (`playground-changed`), so a change to the playground
+rebuilds the site. It needs the `SITE_DISPATCH_TOKEN` secret in the playground repository.
 
 ## Status
 
-The site is being rebuilt in stages; see [`docs/05-implementation-plan.md`](docs/05-implementation-plan.md)
-for the task list. Pages built so far: Home (both languages), Install (both languages) and 404.
-The Learn page, the playground at `/playground/`, and the Lighthouse and sample checks are still to
-do.
+Pages built: Home, Learn (six concepts, both languages), Install, Playground, and the 404 page.
+Tracked in [`docs/05-implementation-plan.md`](docs/05-implementation-plan.md). Still open: the
+vector logo and a designer's heading font, the native-speaker review, and the 3G device pass. The
+playground's first load is about 1.05 MB (gzip); see the budget in `scripts/check_site.py`.
 
 Until Pages is switched to the GitHub Actions source, the live site is still served from the
 `main` branch by Jekyll, and this repository's root `index.html` is what visitors see.

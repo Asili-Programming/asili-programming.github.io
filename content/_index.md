@@ -14,7 +14,7 @@ Asili ni lugha ya programu inayotumia Kiswahili kwa maneno yake ya msingi na mak
 
 <p class="cta">
 <a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Anza sasa</a>
-<a class="btn ghost" href="https://github.com/Asili-Programming/asili-playground">Uwanja wa kivinjari</a>
+<a class="btn ghost" href="/playground/">Uwanja wa kivinjari</a>
 </p>
 
 </section>
@@ -23,7 +23,7 @@ Asili ni lugha ya programu inayotumia Kiswahili kwa maneno yake ya msingi na mak
 
 Kiingilio cha programu ni `kuu`. `weka` hutangaza thamani, na `chapisha` huichapisha.
 
-```
+```asili
 leta hisabati
 
 kazi kuu(hoja: Orodha<Neno>) -> Tupu {
@@ -34,7 +34,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 `kazi` (kazi), `weka` (tangaza thamani), `ikiwa` (sharti), `linganisha` (linganisha thamani), `rejesha` (rudisha matokeo), `leta` (ingiza moduli).
 
-[Programu zaidi za mfano (karibu, sifa, makosa) →](https://github.com/Asili-Programming/asili-playground/tree/main/samples)
+[Programu zaidi za mfano (karibu, sifa, makosa) →](/playground/)
 
 ## Kwa nini Asili?
 

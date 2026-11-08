@@ -4,6 +4,7 @@
 Usage:
   python3 scripts/check_site.py sources   # before the build: pairs and reserved names
   python3 scripts/check_site.py build     # after `zola build`: internal links, home page weight
+  python3 scripts/check_site.py playground # after copy_playground.sh: engine and first-load size
 
 Standard library only, so the gate needs no toolchain beyond Python 3.
 """
@@ -20,6 +21,10 @@ PUBLIC = ROOT / "public"
 # Paths served by other repos' Pages deployments (see docs/02-technical-requirements.md).
 RESERVED = {"Asili", "asili-vscode", "asili-playground"}
 HOME_BUDGET_BYTES = 100 * 1024  # NFR-1: transferred home page under 100 KB
+# NFR-2: the playground's first load. Measured on the first build (gzip): engine 943,709 bytes,
+# CodeMirror bundle 95,381 bytes, page files about 10 KB. Budgets leave room above that.
+PLAYGROUND_ENGINE_BUDGET = 1_000_000
+PLAYGROUND_FIRST_LOAD_BUDGET = 1_200_000
 
 
 def check_sources() -> list[str]:
@@ -87,12 +92,32 @@ def check_build() -> list[str]:
     return []
 
 
+def check_playground() -> list[str]:
+    root = PUBLIC / "playground"
+    if not (root / "index.html").exists():
+        return ["public/playground/ not found: run scripts/copy_playground.sh first"]
+    engine = root / "pkg" / "asili_wasm_bg.wasm"
+    engine_size = transferred_bytes([engine])
+    first_load = sorted(p for p in root.rglob("*") if p.is_file() and p.suffix in {".js", ".css", ".wasm"})
+    total = transferred_bytes(first_load)
+    print(f"playground engine (gzip): {engine_size} bytes, budget {PLAYGROUND_ENGINE_BUDGET}")
+    print(f"playground first load (gzip, wasm + js + css): {total} bytes, budget {PLAYGROUND_FIRST_LOAD_BUDGET}")
+    errors = []
+    if engine_size > PLAYGROUND_ENGINE_BUDGET:
+        errors.append(f"engine is {engine_size} bytes, over the {PLAYGROUND_ENGINE_BUDGET}-byte budget")
+    if total > PLAYGROUND_FIRST_LOAD_BUDGET:
+        errors.append(f"first load is {total} bytes, over the {PLAYGROUND_FIRST_LOAD_BUDGET}-byte budget")
+    return errors
+
+
 def main(argv: list[str]) -> int:
     mode = argv[1] if len(argv) > 1 else ""
     if mode == "sources":
         errors = check_sources()
     elif mode == "build":
         errors = check_build()
+    elif mode == "playground":
+        errors = check_playground()
     else:
         print(__doc__)
         return 2

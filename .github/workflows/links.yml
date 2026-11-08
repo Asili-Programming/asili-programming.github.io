@@ -1,0 +1,30 @@
+# Weekly check of the links the site points to outside itself (GitHub, the spec, the wiki).
+# Internal links are checked on every pull request by scripts/check_site.py.
+name: links
+
+on:
+  schedule:
+    - cron: "0 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lychee:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Zola
+        run: |
+          curl -sSL "https://github.com/getzola/zola/releases/download/v0.19.2/zola-v0.19.2-x86_64-unknown-linux-gnu.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin zola
+
+      - run: zola build
+
+      - name: Check external links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --verbose --no-progress --retry-wait-time 30 --max-retries 3 "public/**/*.html"
+          fail: true
