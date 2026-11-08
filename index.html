@@ -1,10 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="sw">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asili — a programming language in Swahili</title>
-<meta name="description" content="Asili is a programming language that uses Swahili for its keywords and standard library. Pata is its toolchain.">
+<title>Asili — lugha ya programu kwa Kiswahili</title>
+<meta name="description" content="Asili ni lugha ya programu yenye maneno ya msingi na maktaba ya kawaida kwa Kiswahili. Pata ni zana yake.">
+<meta name="description" lang="en" content="Asili is a programming language whose keywords and standard library are in Swahili. Pata is its toolchain.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asili">
+<meta property="og:title" content="Asili — lugha ya programu kwa Kiswahili">
+<meta property="og:description" content="Asili ni lugha ya programu yenye maneno ya msingi na maktaba ya kawaida kwa Kiswahili. Pata ni zana yake.">
+<meta property="og:url" content="https://asili-programming.github.io/">
+<meta property="og:locale" content="sw_TZ">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f7b6c'/%3E%3Ctext x='16' y='23' font-size='20' font-family='system-ui,sans-serif' font-weight='700' text-anchor='middle' fill='%23fff'%3EA%3C/text%3E%3C/svg%3E">
 <style>
   :root {
     --bg: #fbfaf7;
@@ -51,7 +60,10 @@
   }
   a { color: var(--accent-ink); text-decoration: none; }
   a:hover { text-decoration: underline; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 16px; top: 8px; background: var(--panel); padding: 6px 10px; z-index: 2; }
   header.top {
     border-bottom: 1px solid var(--border);
     background: var(--panel);
@@ -61,8 +73,15 @@
     min-height: 56px; flex-wrap: wrap; gap: 8px;
   }
   .brand { font-weight: 700; color: var(--text); font-size: 1.1rem; }
+  nav { display: flex; flex-wrap: wrap; align-items: center; }
   nav a { margin-left: 16px; color: var(--muted); font-size: 0.95rem; }
   nav a:hover { color: var(--text); }
+  .lugha-btn {
+    display: none; margin-left: 16px; padding: 4px 10px; border-radius: 6px;
+    border: 1px solid var(--border); background: transparent; color: var(--text);
+    font: inherit; font-size: 0.9rem; cursor: pointer;
+  }
+  .js .lugha-btn { display: inline-block; }
   .hero { padding: 72px 0 48px; }
   .eyebrow {
     color: var(--warm); font-weight: 600; font-size: 0.85rem;
@@ -81,6 +100,7 @@
   .btn.ghost:hover { text-decoration: none; background: var(--code-bg); }
   section { padding: 40px 0; border-top: 1px solid var(--border); }
   h2 { font-size: 1.5rem; margin: 0 0 12px; }
+  h3 { margin: 0 0 8px; font-size: 1.05rem; }
   p { margin: 0 0 14px; }
   .muted { color: var(--muted); }
   pre {
@@ -93,113 +113,227 @@
   .card {
     background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px;
   }
-  .card h3 { margin: 0 0 8px; font-size: 1.05rem; }
   .card p { color: var(--muted); font-size: 0.95rem; margin: 0 0 10px; }
   .card a { font-weight: 600; font-size: 0.95rem; }
   .pair { display: grid; gap: 24px; grid-template-columns: 1fr; }
   @media (min-width: 800px) { .pair { grid-template-columns: 1fr 1fr; } }
+  table { border-collapse: collapse; width: 100%; max-width: 560px; margin: 0 0 14px; font-size: 0.95rem; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  ul.plain { padding-left: 20px; margin: 0 0 14px; }
+  ul.plain li { margin-bottom: 6px; }
+  .mods { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px 24px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .mods li { color: var(--muted); font-size: 0.95rem; }
+  .status { border-left: 4px solid var(--warm); padding: 4px 16px; background: var(--panel); border-radius: 0 8px 8px 0; }
   footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--muted); font-size: 0.9rem; }
   footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+
+  /* Language: the Swahili text is the default; the English twin shows only when lang="en". */
+  html[lang="en"] span[lang="sw"] { display: none; }
+  html[lang="sw"] span[lang="en"] { display: none; }
 </style>
 </head>
 <body>
 
+<a class="skip" href="#kuu">Ruka hadi maudhui · Skip to content</a>
+
 <header class="top">
   <div class="wrap">
     <span class="brand">Asili</span>
-    <nav>
-      <a href="https://github.com/Asili-Programming/Asili">Source</a>
-      <a href="https://github.com/Asili-Programming/Asili/wiki">Wiki</a>
-      <a href="https://github.com/Asili-Programming/Asili/tree/main/docs/spec">Spec</a>
-      <a href="Asili/">API reference</a>
+    <nav aria-label="Menyu kuu · Main navigation">
+      <a href="https://github.com/Asili-Programming/Asili/wiki/Language-Tour"><span lang="sw">Jifunze</span><span lang="en">Learn</span></a>
+      <a href="https://github.com/Asili-Programming/asili-playground"><span lang="sw">Uwanja</span><span lang="en">Playground</span></a>
+      <a href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started"><span lang="sw">Sakinisha</span><span lang="en">Install</span></a>
+      <a href="https://github.com/Asili-Programming/Asili/wiki"><span lang="sw">Nyaraka</span><span lang="en">Docs</span></a>
+      <a href="https://github.com/Asili-Programming/Asili">GitHub</a>
+      <button type="button" class="lugha-btn" id="lugha-btn" aria-label="Badilisha lugha · Switch language">English</button>
     </nav>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="kuu">
 
   <div class="hero">
-    <p class="eyebrow">Asili · Origin / Nature</p>
-    <h1>Write programs in Swahili.</h1>
+    <p class="eyebrow"><span lang="sw">Asili · Lugha ya programu</span><span lang="en">Asili · A programming language</span></p>
+    <h1><span lang="sw">Andika programu kwa Kiswahili.</span><span lang="en">Write programs in Swahili.</span></h1>
     <p class="lede">
-      Asili is a programming language whose keywords and standard library are Swahili.
-      <strong>Pata</strong> is its toolchain: compiler, runner, formatter, linter and language server,
-      with native code as the only way a program runs.
+      <span lang="sw">Asili ni lugha ya programu ambayo maneno yake ya kuandikia msimbo na maktaba yake ya kawaida ni ya Kiswahili. <strong>Pata</strong> ni zana yake: kikusanyaji, kiendeshi, nadhifu (kipangaji cha msimbo), kikagua msimbo na mwalimu (seva ya LSP kwa wahariri). Programu zote huendeshwa kama msimbo wa mashine asilia; hakuna mkalimani.</span>
+      <span lang="en">Asili is a programming language whose keywords and standard library are in Swahili. <strong>Pata</strong> is its toolchain: compiler, runner, formatter (<em>nadhifu</em>), linter and language server (<em>mwalimu</em>). Every program runs as native machine code; there is no interpreter.</span>
     </p>
     <div class="cta">
-      <a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Get started</a>
-      <a class="btn ghost" href="https://github.com/Asili-Programming/Asili">View on GitHub</a>
+      <a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started"><span lang="sw">Anza sasa</span><span lang="en">Get started</span></a>
+      <a class="btn ghost" href="https://github.com/Asili-Programming/asili-playground"><span lang="sw">Uwanja wa kivinjari</span><span lang="en">Browser playground</span></a>
     </div>
   </div>
 
   <section>
-    <h2>A first program</h2>
-    <p class="muted">The entry point is <code>kuu</code>. <code>weka</code> declares a value, and <code>chapisha</code> prints it.</p>
+    <h2><span lang="sw">Programu ya kwanza</span><span lang="en">A first program</span></h2>
+    <p class="muted"><span lang="sw">Kiingilio cha programu ni <code>kuu</code>. <code>weka</code> hutangaza thamani, na <code>chapisha</code> huichapisha.</span><span lang="en">The entry point is <code>kuu</code>. <code>weka</code> declares a value, and <code>chapisha</code> prints it.</span></p>
     <pre><code>leta hisabati
 
 kazi kuu(hoja: Orodha&lt;Neno&gt;) -&gt; Tupu {
   weka j = jumla(2, 3)
   chapisha("jumla(2, 3) = " + (j kama Neno))
 }</code></pre>
-    <p class="muted">Keywords: <code>kazi</code> (function), <code>weka</code> (let), <code>ikiwa</code> (if), <code>linganisha</code> (match), <code>rejesha</code> (return).</p>
+    <p class="muted">
+      <span lang="sw"><code>kazi</code> (kazi), <code>weka</code> (tangaza thamani), <code>ikiwa</code> (sharti), <code>linganisha</code> (linganisha thamani), <code>rejesha</code> (rudisha matokeo), <code>leta</code> (ingiza moduli).</span>
+      <span lang="en"><code>kazi</code> (function), <code>weka</code> (let), <code>ikiwa</code> (if), <code>linganisha</code> (match), <code>rejesha</code> (return), <code>leta</code> (import a module).</span>
+    </p>
+    <p><a href="https://github.com/Asili-Programming/asili-playground/tree/main/samples"><span lang="sw">Programu zaidi za mfano (karibu, sifa, makosa) →</span><span lang="en">More sample programs (karibu, sifa, makosa) →</span></a></p>
   </section>
 
   <section>
-    <h2>What is here</h2>
+    <h2><span lang="sw">Kwa nini Asili?</span><span lang="en">Why Asili?</span></h2>
     <div class="grid">
       <div class="card">
-        <h3>The language</h3>
-        <p>Swahili keywords, typed values, <code>Chaguo&lt;T&gt;</code> and <code>Tokeo&lt;T,E&gt;</code> instead of null and exceptions, structs and impls.</p>
-        <a href="https://github.com/Asili-Programming/Asili/wiki/Language-Tour">Language tour →</a>
+        <h3><span lang="sw">Maneno ya Kiswahili</span><span lang="en">Swahili keywords</span></h3>
+        <p><span lang="sw">Msimbo unasomeka kwa Kiswahili tangu neno la kwanza, na majina ya maktaba ni ya Kiswahili pia.</span><span lang="en">Code reads in Swahili from the first word, and library names are Swahili too.</span></p>
       </div>
       <div class="card">
-        <h3>Pata, the toolchain</h3>
-        <p>The <code>pata</code> CLI builds and runs programs, and includes a formatter (<em>nadhifu</em>), a linter, a package resolver and a language server (<em>mwalimu</em>).</p>
-        <a href="https://github.com/Asili-Programming/Asili/wiki/CLI-Reference">CLI reference →</a>
+        <h3><span lang="sw">Hakuna <code>null</code> wala makosa yaliyofichwa</span><span lang="en">No <code>null</code>, no hidden exceptions</span></h3>
+        <p><span lang="sw">Thamani inayoweza kukosekana ni <code>Chaguo&lt;T&gt;</code>. Kosa linarudishwa kama <code>Tokeo&lt;T, E&gt;</code>, kwa hiyo unaliona kwenye aina ya kazi.</span><span lang="en">A value that may be missing is <code>Chaguo&lt;T&gt;</code>. An error comes back as <code>Tokeo&lt;T, E&gt;</code>, so it shows in the function's type.</span></p>
       </div>
       <div class="card">
-        <h3>Standard library</h3>
-        <p>Modules for files, time, math, networking (HTTP, WebSocket, TLS), concurrency and more, with Swahili names throughout.</p>
-        <a href="https://github.com/Asili-Programming/Asili/wiki/Standard-Library">Standard library →</a>
-      </div>
-      <div class="card">
-        <h3>Editors</h3>
-        <p>A VS Code extension for syntax, diagnostics and navigation, and a browser playground that runs programs without installing anything.</p>
-        <a href="https://github.com/Asili-Programming/asili-vscode">VS Code extension →</a>
-        <br>
-        <a href="https://github.com/Asili-Programming/asili-playground">Browser playground →</a>
+        <h3><span lang="sw">Msimbo asilia tu</span><span lang="en">Native code only</span></h3>
+        <p><span lang="sw">Programu hukusanywa kuwa msimbo wa mashine (x86-64, AArch64) au moduli ya wasm kwa kivinjari. Hakuna mkalimani.</span><span lang="en">Programs compile to machine code (x86-64, AArch64) or a wasm module for the browser. There is no interpreter.</span></p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Specification and design</h2>
+    <h2><span lang="sw">Kasi</span><span lang="en">Speed</span></h2>
+    <p><span lang="sw">Kwenye benchmark ya Sudoku (kutatua fumbo moja kwa kurudi nyuma, majaribio 90,665), Asili huendesha kwa kasi karibu sawa na C iliyokusanywa kwa clang -O2.</span><span lang="en">On the Sudoku benchmark (solving one puzzle by backtracking, 90,665 attempts), Asili runs close to C built with clang -O2.</span></p>
+    <table>
+      <thead>
+        <tr><th scope="col"><span lang="sw">Utekelezaji</span><span lang="en">Implementation</span></th><th scope="col"><span lang="sw">Muda</span><span lang="en">Time</span></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>C (clang -O2)</td><td class="num">6.5 ms</td></tr>
+        <tr><td>Rust (-O)</td><td class="num">6.8 ms</td></tr>
+        <tr><td>Asili (<span lang="sw">asilia, nguvu</span><span lang="en">native, nguvu</span>)</td><td class="num">7.2 ms</td></tr>
+        <tr><td>C (gcc -O2)</td><td class="num">8.1 ms</td></tr>
+        <tr><td>Python 3</td><td class="num">302 ms</td></tr>
+      </tbody>
+    </table>
+    <p class="muted"><span lang="sw">Muda wa mchakato mzima kwenye core moja, pamoja na takriban 3.3 ms za kuanzisha mchakato. Nambari hizi ni za kawaida, si ahadi; zinatoka kwenye <a href="https://github.com/Asili-Programming/Asili/tree/main/examples/sudoku">examples/sudoku</a>.</span><span lang="en">Whole-process time on one core, including about 3.3 ms of process start-up. These are typical results, not guarantees; they come from <a href="https://github.com/Asili-Programming/Asili/tree/main/examples/sudoku">examples/sudoku</a>.</span></p>
+  </section>
+
+  <section>
+    <h2><span lang="sw">Majukwaa yanayoungwa mkono</span><span lang="en">Supported targets</span></h2>
+    <ul class="plain">
+      <li><span lang="sw"><strong>x86-64 na AArch64</strong>: msimbo asilia kupitia <code>pata jenga</code>.</span><span lang="en"><strong>x86-64 and AArch64</strong>: native code through <code>pata jenga</code>.</span></li>
+      <li><span lang="sw"><strong>Kivinjari (wasm)</strong>: moduli ya wasm inayoendesha uwanja wa kivinjari.</span><span lang="en"><strong>Browser (wasm)</strong>: a wasm module that runs the browser playground.</span></li>
+      <li><span lang="sw"><strong>Cortex-M</strong>: msimbo wa <code>strict</code> kwa <code>pata jenga --lengo cortex-m</code>.</span><span lang="en"><strong>Cortex-M</strong>: <code>strict</code> code for <code>pata jenga --lengo cortex-m</code>.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span lang="sw">Maktaba ya kawaida</span><span lang="en">Standard library</span></h2>
+    <ul class="mods">
+      <li><code>msingi</code>: <span lang="sw">aina na viunda vya msingi (bila <code>leta</code>)</span><span lang="en">basic types and constructors (no <code>leta</code> needed)</span></li>
+      <li><code>hisabati</code>: <span lang="sw">hesabu, trigonometria, logi na namba za nasibu</span><span lang="en">arithmetic, trigonometry, logarithms and random numbers</span></li>
+      <li><code>mfumo</code>: <span lang="sw">mazingira, JSON, mtandao (TCP, TLS, HTTP) na ishara</span><span lang="en">environment, JSON, networking (TCP, TLS, HTTP) and signals</span></li>
+      <li><code>majira</code>: <span lang="sw">saa, tarehe na muda (UTC)</span><span lang="en">time, dates and durations (UTC)</span></li>
+      <li><code>matumizi</code>: <span lang="sw">kuandika na kusoma kwenye skrini</span><span lang="en">reading and writing the terminal</span></li>
+      <li><code>faili</code>: <span lang="sw">kusoma na kuandika faili, saraka na njia</span><span lang="en">reading and writing files, directories and paths</span></li>
+      <li><code>sambamba</code>: <span lang="sw">nyuzi, kazi sawia, njia za ujumbe na kufuli</span><span lang="en">threads, async tasks, message channels and locks</span></li>
+      <li><code>usimbaji</code>: <span lang="sw">base64, hex, hashi na vitambulisho</span><span lang="en">base64, hex, hashes and identifiers</span></li>
+      <li><code>ruwaza</code>: <span lang="sw">misemo ya kawaida (Unicode)</span><span lang="en">regular expressions (Unicode)</span></li>
+      <li><code>runtime</code>: <span lang="sw">habari za kitekelezi na mfumo kinachoendeshwa</span><span lang="en">information about the runtime and the host system</span></li>
+      <li><code>syscall</code>: <span lang="sw">wito wa moja kwa moja kwa kernel</span><span lang="en">direct calls to the kernel</span></li>
+      <li><code>kasha_gc</code>: <span lang="sw">thamani inayoshirikiwa kwa kuhesabu marejeo (si ya lazima)</span><span lang="en">shared values with reference counting (optional)</span></li>
+    </ul>
+    <p><a href="https://github.com/Asili-Programming/Asili/wiki/Standard-Library"><span lang="sw">Maelezo kamili ya maktaba →</span><span lang="en">Full standard library reference →</span></a></p>
+  </section>
+
+  <section>
+    <h2><span lang="sw">Pata, zana ya Asili</span><span lang="en">Pata, the Asili toolchain</span></h2>
+    <ul class="plain">
+      <li><code>pata jenga</code>: <span lang="sw">hujenga msimbo wa mashine; <code>pata jenga --tenda</code> huendesha mara moja.</span><span lang="en">builds native code; <code>pata jenga --tenda</code> builds and runs.</span></li>
+      <li><code>nadhifu</code>: <span lang="sw">hupanga msimbo wako kwa mtindo mmoja.</span><span lang="en">formats your code in one consistent style.</span></li>
+      <li><code>mwalimu</code>: <span lang="sw">seva ya LSP inayoleta kukamilisha maneno, makosa na kuruka kwenye ufafanuzi kwenye wahariri.</span><span lang="en">the language server: completion, diagnostics and go-to-definition in editors.</span></li>
+    </ul>
+    <p><a href="https://github.com/Asili-Programming/Asili/wiki/CLI-Reference"><span lang="sw">Marejeo ya amri →</span><span lang="en">CLI reference →</span></a></p>
+  </section>
+
+  <section>
+    <h2><span lang="sw">Kwa walimu</span><span lang="en">For teachers</span></h2>
     <div class="pair">
       <div>
-        <p>The language and its execution model are defined in the specification. Design decisions and their reasons are recorded alongside it.</p>
-        <p><a href="https://github.com/Asili-Programming/Asili/tree/main/docs/spec">Read the specification →</a></p>
+        <p><span lang="sw">Programu fupi za mfano zinazofaa somo moja ziko kwenye uwanja: <code>karibu</code> (ujumbe wa kwanza), <code>sifa</code> (umbo na mbinu) na <code>makosa</code> (makosa na jinsi ya kuyashughulikia).</span><span lang="en">Short sample programs that fit one lesson are in the playground: <code>karibu</code> (a first message), <code>sifa</code> (structs and methods) and <code>makosa</code> (errors and how to handle them).</span></p>
       </div>
       <div>
-        <p>Rustdoc for every crate in the workspace is published with each push to <code>main</code> of the source repository.</p>
-        <p><a href="Asili/">Browse the API reference →</a></p>
+        <p><span lang="sw">Kila mwanafunzi anaweza kufungua uwanja wa kivinjari na kuendesha msimbo bila kusakinisha chochote.</span><span lang="en">Every student can open the browser playground and run code without installing anything.</span></p>
+        <p><a href="https://github.com/Asili-Programming/asili-playground"><span lang="sw">Uwanja wa kivinjari →</span><span lang="en">Browser playground →</span></a></p>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Contribute</h2>
-    <p>Asili is open source. Bug reports, examples and pull requests are welcome. Read <a href="https://github.com/Asili-Programming/Asili/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> before you start, and the <a href="https://github.com/Asili-Programming/Asili/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> that applies to everyone in the project.</p>
-    <p><a href="https://github.com/Asili-Programming/Asili/issues">Open an issue →</a></p>
+    <h2><span lang="sw">Hali ya mradi</span><span lang="en">Project status</span></h2>
+    <div class="status">
+      <p><span lang="sw">Asili iko katika toleo <strong>0.6.0</strong>, bado changa. Hakuna vifurushi vya binary bado; sakinisha kwa kujenga kutoka chanzo.</span><span lang="en">Asili is at version <strong>0.6.0</strong> and still young. There are no binary packages yet; install by building from source.</span></p>
+      <p><a href="https://github.com/Asili-Programming/Asili/blob/main/CHANGELOG.md"><span lang="sw">Mabadiliko (CHANGELOG) →</span><span lang="en">Changes (CHANGELOG) →</span></a> · <a href="https://github.com/Asili-Programming/Asili/blob/main/docs/design/implementation-status.md"><span lang="sw">Kilichokamilika →</span><span lang="en">What is done →</span></a></p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="sw">Shiriki</span><span lang="en">Contribute</span></h2>
+    <p><span lang="sw">Asili ni chanzo wazi. Ripoti za hitilafu, mifano na maombi ya kuvuta (pull requests) yanakaribishwa. Soma <a href="https://github.com/Asili-Programming/Asili/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> kabla ya kuanza, na <a href="https://github.com/Asili-Programming/Asili/blob/main/CODE_OF_CONDUCT.md">kanuni za maadili</a> zinazomhusu kila mtu katika mradi.</span><span lang="en">Asili is open source. Bug reports, examples and pull requests are welcome. Read <a href="https://github.com/Asili-Programming/Asili/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> before you start, and the <a href="https://github.com/Asili-Programming/Asili/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> that applies to everyone in the project.</span></p>
+    <ul class="plain">
+      <li><a href="https://github.com/Asili-Programming/Asili/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22"><span lang="sw">Kazi rahisi za kuanzia (good first issue) →</span><span lang="en">Good first issues →</span></a></li>
+      <li><a href="https://github.com/Asili-Programming/Asili/issues"><span lang="sw">Fungua tatizo jipya →</span><span lang="en">Open an issue →</span></a></li>
+      <li><a href="https://github.com/Asili-Programming/Asili/tree/main/docs/spec"><span lang="sw">Kiwango cha lugha (spec) →</span><span lang="en">Read the specification →</span></a></li>
+      <li><a href="https://asili-programming.github.io/Asili/"><span lang="sw">Marejeo ya API (rustdoc) →</span><span lang="en">API reference (rustdoc) →</span></a></li>
+    </ul>
   </section>
 
 </main>
 
 <footer>
   <div class="wrap">
-    <span>Asili is developed in the open at <a href="https://github.com/Asili-Programming">github.com/Asili-Programming</a>.</span>
-    <span><a href="https://github.com/Asili-Programming/Asili/blob/main/LICENSE">License</a> · <a href="https://github.com/Asili-Programming/Asili/blob/main/SECURITY.md">Security</a></span>
+    <span><span lang="sw">Asili inatengenezwa wazi kwenye</span><span lang="en">Asili is developed in the open at</span> <a href="https://github.com/Asili-Programming">github.com/Asili-Programming</a>.</span>
+    <span><a href="https://github.com/Asili-Programming/Asili/blob/main/LICENSE"><span lang="sw">Leseni</span><span lang="en">License</span></a> · <a href="https://github.com/Asili-Programming/Asili/blob/main/SECURITY.md"><span lang="sw">Usalama</span><span lang="en">Security</span></a></span>
   </div>
 </footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('lugha-btn');
+  var key = 'asili-lugha';
+  var titles = { sw: 'Asili — lugha ya programu kwa Kiswahili', en: 'Asili — a programming language in Swahili' };
+  var descs = {
+    sw: 'Asili ni lugha ya programu yenye maneno ya msingi na maktaba ya kawaida kwa Kiswahili. Pata ni zana yake.',
+    en: 'Asili is a programming language whose keywords and standard library are in Swahili. Pata is its toolchain.'
+  };
+
+  function apply(lang) {
+    root.lang = lang;
+    document.title = titles[lang];
+    var meta = document.querySelector('meta[name="description"]:not([lang])');
+    if (meta) meta.content = descs[lang];
+    if (btn) {
+      btn.textContent = lang === 'en' ? 'Kiswahili' : 'English';
+      btn.setAttribute('aria-label', lang === 'en' ? 'Switch to Swahili' : 'Badilisha kwenda Kiingereza');
+    }
+  }
+
+  root.classList.add('js');
+  var saved = null;
+  try { saved = localStorage.getItem(key); } catch (e) { /* storage blocked: default to Swahili */ }
+  apply(saved === 'en' ? 'en' : 'sw');
+
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var next = root.lang === 'en' ? 'sw' : 'en';
+      apply(next);
+      try { localStorage.setItem(key, next); } catch (e) { /* not remembered; still switched */ }
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
