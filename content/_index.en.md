@@ -15,7 +15,7 @@ template = "index.html"
 </div>
 </section>
 
-## A first program
+## My first program
 
 The entry point is `kuu`. `weka` declares a value, and `chapisha` prints it.
 
@@ -89,7 +89,7 @@ Short sample programs that fit one lesson are in the IDE: `karibu` (a first mess
 
 ## Project status
 
-Asili is at version **0.6.0** and still young. There are no binary packages yet; [install by building from source](/en/install/).
+Asili is at version **0.6.0** and still young. There are no binary packages yet; [install it by building from source](/en/install/).
 
 [Changes (CHANGELOG) →](https://github.com/Asili-Programming/Asili/blob/main/CHANGELOG.md) · [What is done →](https://github.com/Asili-Programming/Asili/blob/main/docs/design/implementation-status.md)
 
