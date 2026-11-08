@@ -17,7 +17,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline
 
 header.top { border-bottom: 1px solid var(--line); }
 .bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; min-height: 56px; }
-.brand { font-weight: 700; color: var(--ink); text-decoration: none; font-size: 1.1rem; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--ink); text-decoration: none; font-size: 1.1rem; }
+.brand .logo { display: block; height: 33px; width: auto; }
 nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
 nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
 nav a:hover { color: var(--ink); }
