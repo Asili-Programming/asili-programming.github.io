@@ -76,6 +76,10 @@ jobs:
         working-directory: site
         run: python3 scripts/check_site.py sources
 
+      - name: The code highlighter matches the playground's word lists
+        working-directory: site
+        run: python3 scripts/build_syntax.py --playground "$GITHUB_WORKSPACE/playground" --check
+
       - name: Build the site
         working-directory: site
         run: zola build

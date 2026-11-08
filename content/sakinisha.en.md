@@ -16,7 +16,7 @@ Pata is built from source for now. Binary packages have not been released yet.
 
 Open a terminal and run these commands. They are the same on Linux, macOS and Windows (PowerShell).
 
-```
+```bash
 git clone https://github.com/Asili-Programming/Asili.git
 cd Asili
 cargo build --release -p pata-cli
@@ -26,7 +26,7 @@ The `pata` binary is in `target/release/` (`target\release\pata.exe` on Windows)
 
 ## Try your first program
 
-```
+```bash
 cd examples/asi_sample
 cargo run -p pata-cli -- jenga --tenda
 ```
