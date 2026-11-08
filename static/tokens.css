@@ -1,0 +1,45 @@
+/* Colour and layout tokens from docs/04-design-brief.md. Light by default; dark follows the
+   system setting unless the visitor chooses otherwise (data-theme on <html>). Contrast values
+   are recorded in the brief; change a value here and re-check the pairs it documents. */
+:root {
+  --paper: #f0f0ed;
+  --panel: #f8f8f5;
+  --ink: #2a2a26;
+  --muted: #5e5d55;
+  --olive: #485028;
+  --on-olive: #ffffff;
+  --copper: #d09860;
+  --copper-text: #8a5a2e;
+  --line: #d9d6cc;
+  --code-bg: #e6e5df;
+  --focus: #8a5a2e;
+  --measure: 68ch;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #161712;
+    --panel: #1e1f19;
+    --ink: #ecebe4;
+    --muted: #a8a69c;
+    --olive: #a9bb72;
+    --on-olive: #161712;
+    --copper: #e0aa74;
+    --copper-text: #e0aa74;
+    --line: #3a3b32;
+    --code-bg: #22231d;
+    --focus: #e0aa74;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #161712;
+  --panel: #1e1f19;
+  --ink: #ecebe4;
+  --muted: #a8a69c;
+  --olive: #a9bb72;
+  --on-olive: #161712;
+  --copper: #e0aa74;
+  --copper-text: #e0aa74;
+  --line: #3a3b32;
+  --code-bg: #22231d;
+  --focus: #e0aa74;
+}

@@ -1,0 +1,68 @@
+# Zola configuration for asili-programming.github.io.
+# Swahili is the default language and lives at the root; English lives under /en/.
+base_url = "https://asili-programming.github.io"
+title = "Asili"
+description = "Asili ni lugha ya programu inayotumia Kiswahili. Pata ni zana yake."
+default_language = "sw"
+compile_sass = false
+build_search_index = false
+generate_feeds = false
+minify_html = false
+
+[markdown]
+highlight_code = false
+
+# Interface strings. Templates read them with trans(key=..., lang=lang); no string lives in a template.
+[translations]
+skip = "Ruka hadi maudhui"
+nav_label = "Menyu kuu"
+nav_learn = "Jifunze"
+nav_playground = "Uwanja"
+nav_install = "Sakinisha"
+nav_docs = "Nyaraka"
+nav_github = "GitHub"
+switch_to = "English"
+url_home = "/"
+url_learn = "https://github.com/Asili-Programming/Asili/wiki/Language-Tour"
+url_install = "/sakinisha/"
+url_playground = "https://github.com/Asili-Programming/asili-playground"
+url_docs = "https://github.com/Asili-Programming/Asili/wiki"
+url_github = "https://github.com/Asili-Programming/Asili"
+url_source_org = "https://github.com/Asili-Programming"
+footer_developed = "Asili inatengenezwa wazi kwenye"
+footer_license = "Leseni"
+footer_security = "Usalama"
+footer_license_url = "https://github.com/Asili-Programming/Asili/blob/main/LICENSE"
+footer_security_url = "https://github.com/Asili-Programming/Asili/blob/main/SECURITY.md"
+not_found_heading = "Ukurasa haupatikani"
+not_found_text = "Anwani hii haipo, au ukurasa umehamishwa."
+back_home = "Rudi mwanzo"
+
+[languages.en]
+title = "Asili"
+description = "Asili is a programming language that uses Swahili. Pata is its toolchain."
+
+[languages.en.translations]
+skip = "Skip to content"
+nav_label = "Main"
+nav_learn = "Learn"
+nav_playground = "Playground"
+nav_install = "Install"
+nav_docs = "Docs"
+nav_github = "GitHub"
+switch_to = "Kiswahili"
+url_home = "/en/"
+url_learn = "https://github.com/Asili-Programming/Asili/wiki/Language-Tour"
+url_install = "/en/install/"
+url_playground = "https://github.com/Asili-Programming/asili-playground"
+url_docs = "https://github.com/Asili-Programming/Asili/wiki"
+url_github = "https://github.com/Asili-Programming/Asili"
+url_source_org = "https://github.com/Asili-Programming"
+footer_developed = "Asili is developed in the open at"
+footer_license = "License"
+footer_security = "Security"
+footer_license_url = "https://github.com/Asili-Programming/Asili/blob/main/LICENSE"
+footer_security_url = "https://github.com/Asili-Programming/Asili/blob/main/SECURITY.md"
+not_found_heading = "Page not found"
+not_found_text = "This address does not exist, or the page has moved."
+back_home = "Back to home"

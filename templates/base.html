@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% set_global page_title = config.title %}
+{% if page %}{% set_global page_title = page.title ~ " · " ~ config.title %}{% elif section and section.title != config.title %}{% set_global page_title = section.title ~ " · " ~ config.title %}{% endif %}
+<title>{{ page_title }}</title>
+<meta name="description" content="{{ page.description | default(value=section.description | default(value=config.description)) }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asili">
+<meta property="og:title" content="{{ page_title }}">
+<meta property="og:locale" content="{% if lang == 'en' %}en_US{% else %}sw_TZ{% endif %}">
+{% if page.translations %}{% for t in page.translations %}<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink }}">{% endfor %}{% elif section.translations %}{% for t in section.translations %}<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink }}">{% endfor %}{% endif %}
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+
+<a class="skip" href="#maudhui">{{ trans(key="skip", lang=lang) }}</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="{{ trans(key='url_home', lang=lang) }}">Asili</a>
+    <nav aria-label="{{ trans(key='nav_label', lang=lang) }}">
+      <a href="{{ trans(key='url_learn', lang=lang) }}">{{ trans(key="nav_learn", lang=lang) }}</a>
+      <a href="{{ trans(key='url_playground', lang=lang) }}">{{ trans(key="nav_playground", lang=lang) }}</a>
+      <a href="{{ trans(key='url_install', lang=lang) }}">{{ trans(key="nav_install", lang=lang) }}</a>
+      <a href="{{ trans(key='url_docs', lang=lang) }}">{{ trans(key="nav_docs", lang=lang) }}</a>
+      <a href="{{ trans(key='url_github', lang=lang) }}">{{ trans(key="nav_github", lang=lang) }}</a>
+      {% if lang == "en" %}{% set_global switch_lang = "sw" %}{% else %}{% set_global switch_lang = "en" %}{% endif %}
+      {% if page.translations %}{% set_global switch_url = "" %}{% for t in page.translations %}{% if t.lang == switch_lang %}{% set_global switch_url = t.permalink %}{% endif %}{% endfor %}{% elif section.translations %}{% set_global switch_url = "" %}{% for t in section.translations %}{% if t.lang == switch_lang %}{% set_global switch_url = t.permalink %}{% endif %}{% endfor %}{% else %}{% set_global switch_url = "" %}{% endif %}
+      {% if switch_url == "" %}{% if switch_lang == "en" %}{% set_global switch_url = "/en/" %}{% else %}{% set_global switch_url = "/" %}{% endif %}{% endif %}
+      <a class="lang" href="{{ switch_url }}" data-lugha="{{ switch_lang }}" hreflang="{{ switch_lang }}" lang="{{ switch_lang }}">{{ trans(key="switch_to", lang=lang) }}</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="maudhui">
+{% block content %}{% endblock content %}
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>{{ trans(key="footer_developed", lang=lang) }} <a href="{{ trans(key='url_source_org', lang=lang) }}">github.com/Asili-Programming</a>.</span>
+    <span><a href="{{ trans(key='footer_license_url', lang=lang) }}">{{ trans(key="footer_license", lang=lang) }}</a> · <a href="{{ trans(key='footer_security_url', lang=lang) }}">{{ trans(key="footer_security", lang=lang) }}</a></span>
+  </div>
+</footer>
+
+<script src="/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+{# The page is bilingual on purpose: a visitor may have arrived from either language. #}
+<article class="prose notfound">
+<h1>{{ trans(key="not_found_heading", lang="sw") }} / {{ trans(key="not_found_heading", lang="en") }}</h1>
+<p>{{ trans(key="not_found_text", lang="sw") }}</p>
+<p>{{ trans(key="not_found_text", lang="en") }}</p>
+<p><a class="btn primary" href="/">{{ trans(key="back_home", lang="sw") }}</a> <a class="btn ghost" href="/en/">{{ trans(key="back_home", lang="en") }}</a></p>
+</article>
+{% endblock content %}

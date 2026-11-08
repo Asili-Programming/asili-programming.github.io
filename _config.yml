@@ -1,5 +1,11 @@
-# GitHub Pages currently builds this branch with Jekyll. Keep the planning documents and the
-# README out of the published site. Removed when the site moves to Zola and the Actions deploy.
+# GitHub Pages currently builds this branch with Jekyll. Keep the planning documents, the README
+# and the Zola sources out of the legacy build. Removed when Pages deploys with site.yml instead.
 exclude:
   - docs
   - README.md
+  - content
+  - templates
+  - scripts
+  - config.toml
+  - .github
+  - .gitignore
