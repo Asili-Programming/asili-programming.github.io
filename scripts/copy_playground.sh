@@ -11,7 +11,7 @@ public="${2:-$(cd "$(dirname "$0")/.." && pwd)/public}"
 target="$public/playground"
 
 # Files the page needs that are not JavaScript modules.
-static=(pkg/asili_wasm.js pkg/asili_wasm_bg.wasm index.html style.css favicon.svg vendor/codemirror.js samples/manifest.json logo-mark.svg)
+static=(pkg/asili_wasm.js pkg/asili_wasm_bg.wasm index.html style.css favicon.svg vendor/codemirror.js samples/manifest.json logo-mark.svg manifest.webmanifest sw.js icons/icon-192.png icons/icon-512.png icons/icon-maskable-512.png)
 
 # The modules reachable from main.js and from worker.js (the page starts the worker by URL, so it is
 # not an import of main.js): each `from "./x.js"` import, followed transitively.
@@ -39,4 +39,8 @@ done
 cp "$playground/index.html" "$playground/style.css" "$playground/favicon.svg" "$playground/logo-mark.svg" "$target/"
 cp "$playground/vendor/codemirror.js" "$target/vendor/"
 cp "$playground/samples/"*.as "$playground/samples/manifest.json" "$target/samples/"
+# The installable app: its manifest, its service worker (scope /playground/) and its icons.
+cp "$playground/manifest.webmanifest" "$playground/sw.js" "$target/"
+mkdir -p "$target/icons"
+cp "$playground/icons/"*.png "$target/icons/"
 echo "copied playground to $target: ${modules[*]}"
