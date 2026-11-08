@@ -1,19 +1,74 @@
 # asili-programming.github.io
 
-The landing page for Asili at <https://asili-programming.github.io>.
+The website for Asili at <https://asili-programming.github.io>. It is built with
+[Zola](https://www.getzola.org/) and deployed by `.github/workflows/site.yml`.
 
-The site is one static file, `index.html`, with no build step and no external dependencies.
-GitHub Pages serves it from the `main` branch.
+## Layout
 
-- The API reference at `/Asili/` is published by the `Asili` repository's `docs.yml` workflow
-  (rustdoc), which deploys to this site's `Asili/` path once Pages is enabled for that repository.
-- The language docs, the wiki and the source live in
-  [Asili-Programming/Asili](https://github.com/Asili-Programming/Asili).
-- The VS Code extension is [Asili-Programming/asili-vscode](https://github.com/Asili-Programming/asili-vscode),
-  and the browser playground is [Asili-Programming/asili-playground](https://github.com/Asili-Programming/asili-playground).
+- `config.toml`: site settings and the interface strings, one table per language. Templates read
+  strings with `trans(key=..., lang=lang)`; no string lives in a template.
+- `content/`: pages in Markdown. Every page has two files: `page.md` (Swahili, the default at `/`)
+  and `page.en.md` (English, under `/en/`).
+- `templates/`: Tera layouts (`base.html`, `index.html`, `page.html`, `404.html`).
+- `static/`: copied to the site root as is: `tokens.css` (colours, from the design brief),
+  `site.css`, `site.js` (the language switch) and `favicon.svg`.
+- `scripts/check_site.py`: quality gates Zola does not cover. `sources` checks that every page has
+  its twin and that no folder is named after another repo; `build` checks internal links and the
+  home page's transferred size (budget 100 KB).
+- `docs/`: the plan (requirements, technical design, app flow, design brief, implementation plan).
 
-The plan for the site (requirements, architecture, app flow, design brief, implementation plan) is
-in [`docs/`](docs/README.md).
+## Build locally
 
-To preview locally, open `index.html` in a browser. Links to `Asili/` resolve only after the API
-reference has been deployed.
+Install [Zola 0.19.2](https://github.com/getzola/zola/releases/tag/v0.19.2), [`wasm-pack`](https://rustwasm.github.io/wasm-pack/),
+and a `pata` binary built from Asili (`cargo build --release -p pata-cli` in the Asili checkout).
+Clone [asili-playground](https://github.com/Asili-Programming/asili-playground) beside this repository
+and build its engine (`./build.sh`, with `ASILI_DIR` pointing at Asili). Then:
+
+```bash
+python3 scripts/check_site.py sources
+zola build --base-url http://127.0.0.1:8080   # local links; the default is the public address
+```
+
+Copy the playground into the built site, then run the gates:
+
+```bash
+./scripts/copy_playground.sh ../asili-playground public
+python3 scripts/check_site.py build
+python3 scripts/check_site.py playground
+PATA=/path/to/pata python3 scripts/check_samples.py --playground ../asili-playground
+python3 -m http.server 8080 --bind 127.0.0.1 --directory public
+```
+
+`public/` is generated and not committed. `zola serve` also works for editing text, but it does not
+include the playground, so the playground link will not resolve in it.
+
+## Gates
+
+| Gate | Where it runs | What it checks |
+| --- | --- | --- |
+| `check_site.py sources` | every pull request | every page has its twin in the other language; no folder is named after another repo |
+| `zola build` and `check_site.py build` | every pull request | the site builds; internal links resolve; the home page is under 100 KB |
+| `check_site.py playground` | every pull request | the engine (gzip) is under 850,000 bytes and the first load under 950,000 bytes |
+| `check_samples.py` | every pull request | every `asili` code block on the site and every playground sample compiles with `pata` built from Asili's `main` |
+| Lighthouse (`lighthouserc.json`) | every pull request | performance at least 90, accessibility at least 95, for the home page, install page and playground |
+| `links.yml` | weekly | external links (lychee), with retries |
+| Deploy | push to `main` | the Pages artifact from the build, once the Pages source is set to GitHub Actions |
+
+`site.yml` also runs on `repository_dispatch` (`playground-changed`), so a change to the playground
+rebuilds the site. It needs the `SITE_DISPATCH_TOKEN` secret in the playground repository.
+
+## Status
+
+Pages built: Home, Learn (six concepts, both languages), Install, Playground, and the 404 page.
+Tracked in [`docs/05-implementation-plan.md`](docs/05-implementation-plan.md). Still open: the
+vector logo and a designer's heading font, the native-speaker review, and the 3G device pass. The
+playground's first load is about 1.05 MB (gzip); see the budget in `scripts/check_site.py`.
+
+Until Pages is switched to the GitHub Actions source, the live site is still served from the
+`main` branch by Jekyll, and this repository's root `index.html` is what visitors see.
+
+## Related repositories
+
+- [Asili-Programming/Asili](https://github.com/Asili-Programming/Asili): the language, the wiki and the spec.
+- [Asili-Programming/asili-vscode](https://github.com/Asili-Programming/asili-vscode): the VS Code extension.
+- [Asili-Programming/asili-playground](https://github.com/Asili-Programming/asili-playground): the browser playground.

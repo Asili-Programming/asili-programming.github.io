@@ -1,0 +1,184 @@
+# Builds the site, the playground and the wasm engine, then runs every gate. Deploys on push to
+# main only. Pages must use the "GitHub Actions" source for the deploy job to succeed
+# (Settings > Pages).
+name: site
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  # The playground's CI sends this when its main changes (see asili-playground ci.yml).
+  repository_dispatch:
+    types: [playground-changed]
+  # Asili's compiler changes on its own schedule: rebuild weekly so the samples and the engine
+  # follow Asili's main even without a push here.
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ZOLA_VERSION: "0.19.2"
+
+jobs:
+  build:
+    name: Build site and playground
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: site
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Asili-Programming/asili-playground
+          ref: main
+          path: playground
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Asili-Programming/Asili
+          ref: main
+          path: asili
+
+      - name: Install Zola
+        run: |
+          curl -sSL "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin zola
+          zola --version
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: asili
+
+      - name: Install wasm-pack
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-pack
+
+      - name: Build the wasm engine (the playground's build.sh)
+        working-directory: playground
+        env:
+          ASILI_DIR: ${{ github.workspace }}/asili
+        run: ./build.sh
+
+      - name: Check sources (translation pairs, reserved names)
+        working-directory: site
+        run: python3 scripts/check_site.py sources
+
+      - name: Build the site
+        working-directory: site
+        run: zola build
+
+      - name: Copy the playground into the site
+        working-directory: site
+        run: ./scripts/copy_playground.sh "$GITHUB_WORKSPACE/playground" public
+
+      - name: Check the build (internal links, home page weight)
+        working-directory: site
+        run: python3 scripts/check_site.py build
+
+      - name: Check the playground (engine and first-load size)
+        working-directory: site
+        run: python3 scripts/check_site.py playground
+
+      - name: Upload the built site for the Lighthouse job
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site/public
+          retention-days: 7
+
+      - name: Upload Pages artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/public
+
+  samples:
+    name: Samples compile with pata
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: site
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Asili-Programming/asili-playground
+          ref: main
+          path: playground
+
+      - uses: actions/checkout@v4
+        with:
+          repository: Asili-Programming/Asili
+          ref: main
+          path: asili
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: asili
+
+      - name: Build pata from Asili main
+        working-directory: asili
+        run: cargo build --release -p pata-cli
+
+      - name: Every sample on the site and in the playground compiles
+        working-directory: site
+        env:
+          PATA: ${{ github.workspace }}/asili/target/release/pata-cli
+        run: python3 scripts/check_samples.py --playground "$GITHUB_WORKSPACE/playground"
+
+  lighthouse:
+    name: Lighthouse budgets
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: site
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site/public
+
+      - name: Serve the built site
+        run: (cd site/public && python3 -m http.server 8000 --bind 127.0.0.1 &) && sleep 2
+
+      - name: Run Lighthouse against the home page, the install page and the playground
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://127.0.0.1:8000/
+            http://127.0.0.1:8000/sakinisha/
+            http://127.0.0.1:8000/playground/
+          configPath: site/lighthouserc.json
+          uploadArtifacts: false
+          temporaryPublicStorage: false
+
+  deploy:
+    needs: [build, samples]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
