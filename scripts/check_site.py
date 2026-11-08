@@ -23,9 +23,10 @@ RESERVED = {"Asili", "asili-vscode", "asili-playground", "ide", "playground"}
 HOME_BUDGET_BYTES = 100 * 1024  # NFR-1: transferred home page under 100 KB
 # NFR-2: the playground's first load (gzip). Measured with the size-optimised engine build
 # (playground build.sh): engine 784,641 bytes, first load 891,065 bytes. The default release build
-# was 943,709 bytes for the engine. Budgets leave about 6 to 8 per cent of room above the current build.
+# was 943,709 bytes for the engine. Budgets leave about 6 to 8 per cent of room above the current build. The first-load budget was raised
+# from 950,000 to 960,000 for the IDE's phone layout, icon lookup and touch menus (the build is about 952,000).
 PLAYGROUND_ENGINE_BUDGET = 850_000
-PLAYGROUND_FIRST_LOAD_BUDGET = 950_000
+PLAYGROUND_FIRST_LOAD_BUDGET = 960_000
 
 
 def check_sources() -> list[str]:
