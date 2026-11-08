@@ -70,7 +70,15 @@ jobs:
         working-directory: playground
         env:
           ASILI_DIR: ${{ github.workspace }}/asili
-        run: ./build.sh
+        # wasm-pack downloads binaryen (wasm-opt) from GitHub during the build, and that download
+        # fails now and then. Retry the whole build a few times before failing.
+        run: |
+          for attempt in 1 2 3; do
+            if ./build.sh; then exit 0; fi
+            echo "build.sh failed (attempt $attempt); retrying in 30 s"
+            sleep 30
+          done
+          exit 1
 
       - name: Check sources (translation pairs, reserved names)
         working-directory: site
