@@ -138,7 +138,7 @@ jobs:
       - name: Every sample on the site and in the playground compiles
         working-directory: site
         env:
-          PATA: ${{ github.workspace }}/asili/target/release/pata
+          PATA: ${{ github.workspace }}/asili/target/release/pata-cli
         run: python3 scripts/check_samples.py --playground "$GITHUB_WORKSPACE/playground"
 
   lighthouse:
