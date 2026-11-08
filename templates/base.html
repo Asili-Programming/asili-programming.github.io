@@ -22,6 +22,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/tokens.css">
 <link rel="stylesheet" href="/site.css">
+<script>try{var t=localStorage.getItem("asili-mandhari");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 </head>
 <body>
 
@@ -39,6 +40,7 @@
       {% if lang == "en" %}{% set_global switch_lang = "sw" %}{% else %}{% set_global switch_lang = "en" %}{% endif %}
       {% if page.translations %}{% set_global switch_url = "" %}{% for t in page.translations %}{% if t.lang == switch_lang %}{% set_global switch_url = t.permalink %}{% endif %}{% endfor %}{% elif section.translations %}{% set_global switch_url = "" %}{% for t in section.translations %}{% if t.lang == switch_lang %}{% set_global switch_url = t.permalink %}{% endif %}{% endfor %}{% else %}{% set_global switch_url = "" %}{% endif %}
       {% if switch_url == "" %}{% if switch_lang == "en" %}{% set_global switch_url = "/en/" %}{% else %}{% set_global switch_url = "/" %}{% endif %}{% endif %}
+      <button type="button" class="theme" id="theme-btn" aria-label="{{ trans(key='nav_theme', lang=lang) }}" data-label-system="{{ trans(key='theme_system', lang=lang) }}" data-label-light="{{ trans(key='theme_light', lang=lang) }}" data-label-dark="{{ trans(key='theme_dark', lang=lang) }}">{{ trans(key="theme_system", lang=lang) }}</button>
       <a class="lang" href="{{ switch_url }}" data-lugha="{{ switch_lang }}" hreflang="{{ switch_lang }}" lang="{{ switch_lang }}">{{ trans(key="switch_to", lang=lang) }}</a>
     </nav>
   </div>

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if section.path == "/" and lang == "sw" %}<p class="alt-lang"><a href="/en/">{{ trans(key="read_english", lang="sw") }}</a></p>{% endif %}
 <article class="prose">
 {{ section.content | safe }}
 </article>
