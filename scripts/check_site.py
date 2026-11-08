@@ -21,10 +21,11 @@ PUBLIC = ROOT / "public"
 # Paths served by other repos' Pages deployments (see docs/02-technical-requirements.md).
 RESERVED = {"Asili", "asili-vscode", "asili-playground"}
 HOME_BUDGET_BYTES = 100 * 1024  # NFR-1: transferred home page under 100 KB
-# NFR-2: the playground's first load. Measured on the first build (gzip): engine 943,709 bytes,
-# CodeMirror bundle 95,381 bytes, page files about 10 KB. Budgets leave room above that.
-PLAYGROUND_ENGINE_BUDGET = 1_000_000
-PLAYGROUND_FIRST_LOAD_BUDGET = 1_200_000
+# NFR-2: the playground's first load (gzip). Measured with the size-optimised engine build
+# (playground build.sh): engine 784,641 bytes, first load 891,065 bytes. The default release build
+# was 943,709 bytes for the engine. Budgets leave about 6 to 8 per cent of room above the current build.
+PLAYGROUND_ENGINE_BUDGET = 850_000
+PLAYGROUND_FIRST_LOAD_BUDGET = 950_000
 
 
 def check_sources() -> list[str]:

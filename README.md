@@ -48,7 +48,7 @@ include the playground, so the playground link will not resolve in it.
 | --- | --- | --- |
 | `check_site.py sources` | every pull request | every page has its twin in the other language; no folder is named after another repo |
 | `zola build` and `check_site.py build` | every pull request | the site builds; internal links resolve; the home page is under 100 KB |
-| `check_site.py playground` | every pull request | the engine (gzip) is under 1,000,000 bytes and the first load under 1,200,000 bytes |
+| `check_site.py playground` | every pull request | the engine (gzip) is under 850,000 bytes and the first load under 950,000 bytes |
 | `check_samples.py` | every pull request | every `asili` code block on the site and every playground sample compiles with `pata` built from Asili's `main` |
 | Lighthouse (`lighthouserc.json`) | every pull request | performance at least 90, accessibility at least 95, for the home page, install page and playground |
 | `links.yml` | weekly | external links (lychee), with retries |
