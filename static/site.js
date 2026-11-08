@@ -4,38 +4,34 @@
 // - Theme: System, Light or Dark, remembered in "asili-mandhari". "System" follows the OS setting.
 // Storage can be blocked, so every access is guarded.
 (function () {
-  try {
-    var links = document.querySelectorAll('a[data-lugha]');
-    for (var i = 0; i < links.length; i++) {
-      links[i].addEventListener('click', function (ev) {
-        try { localStorage.setItem('asili-lugha', ev.currentTarget.getAttribute('data-lugha')); } catch (e) { /* not remembered */ }
-      });
-    }
-  } catch (e) { /* no DOM support */ }
+  // Language dropdown: choosing the other language opens its twin page, and remembers the choice
+  // (localStorage "asili-lugha"). Nothing redirects on its own.
+  var lang = document.getElementById('lang-select');
+  if (lang) {
+    lang.addEventListener('change', function () {
+      var opt = lang.options[lang.selectedIndex];
+      var target = opt.value;
+      if (!target || target === window.location.href) return;
+      try { localStorage.setItem('asili-lugha', opt.getAttribute('data-lugha') || opt.lang); } catch (e) { /* not remembered */ }
+      window.location.href = target;
+    });
+  }
 
-  var btn = document.getElementById('theme-btn');
-  if (!btn) return;
-  var root = document.documentElement;
-  var order = ['system', 'light', 'dark'];
-  function current() {
-    var t = root.getAttribute('data-theme');
-    return t === 'light' || t === 'dark' ? t : 'system';
+  // Theme dropdown: System, Light or Dark, remembered per visitor (localStorage "asili-mandhari").
+  // The page itself is themed before first paint by the small script in base.html.
+  var theme = document.getElementById('theme-select');
+  if (theme) {
+    var root = document.documentElement;
+    var current = root.getAttribute('data-theme');
+    theme.value = (current === 'light' || current === 'dark') ? current : 'system';
+    theme.addEventListener('change', function () {
+      var v = theme.value;
+      if (v === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', v);
+      try {
+        if (v === 'system') localStorage.removeItem('asili-mandhari'); else localStorage.setItem('asili-mandhari', v);
+      } catch (e) { /* not remembered */ }
+    });
   }
-  function show() {
-    var c = current();
-    btn.textContent = btn.getAttribute('data-label-' + c);
-  }
-  btn.addEventListener('click', function () {
-    var next = order[(order.indexOf(current()) + 1) % order.length];
-    if (next === 'system') root.removeAttribute('data-theme');
-    else root.setAttribute('data-theme', next);
-    try {
-      if (next === 'system') localStorage.removeItem('asili-mandhari');
-      else localStorage.setItem('asili-mandhari', next);
-    } catch (e) { /* not remembered */ }
-    show();
-  });
-  show();
 
   // Mobile menu: the hamburger opens the panel and becomes an X that closes it. Escape, the
   // backdrop and choosing a link also close it. On desktop the button is hidden, so this is inert.
