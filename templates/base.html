@@ -31,7 +31,12 @@
 <header class="top">
   <div class="wrap bar">
     <a class="brand" href="{{ trans(key='url_home', lang=lang) }}"><img class="logo" src="/logo-mark.svg" alt="" width="30" height="33">Asili</a>
-    <nav aria-label="{{ trans(key='nav_label', lang=lang) }}">
+    <button type="button" class="menu-btn" id="menu-btn" aria-controls="menu" aria-expanded="false" aria-label="{{ trans(key='menu_open', lang=lang) }}" data-open-label="{{ trans(key='menu_open', lang=lang) }}" data-close-label="{{ trans(key='menu_close', lang=lang) }}">
+      <svg class="i-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+      <svg class="i-close" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <div class="menu-backdrop" id="menu-backdrop" hidden></div>
+    <nav id="menu" aria-label="{{ trans(key='nav_label', lang=lang) }}">
       <a href="{{ trans(key='url_learn', lang=lang) }}">{{ trans(key="nav_learn", lang=lang) }}</a>
       <a href="{{ trans(key='url_playground', lang=lang) }}">{{ trans(key="nav_playground", lang=lang) }}</a>
       <a href="{{ trans(key='url_install', lang=lang) }}">{{ trans(key="nav_install", lang=lang) }}</a>
@@ -40,8 +45,15 @@
       {% if lang == "en" %}{% set_global switch_lang = "sw" %}{% else %}{% set_global switch_lang = "en" %}{% endif %}
       {% if page.translations %}{% set_global switch_url = "" %}{% for t in page.translations %}{% if t.lang == switch_lang %}{% set_global switch_url = t.permalink %}{% endif %}{% endfor %}{% elif section.translations %}{% set_global switch_url = "" %}{% for t in section.translations %}{% if t.lang == switch_lang %}{% set_global switch_url = t.permalink %}{% endif %}{% endfor %}{% else %}{% set_global switch_url = "" %}{% endif %}
       {% if switch_url == "" %}{% if switch_lang == "en" %}{% set_global switch_url = "/en/" %}{% else %}{% set_global switch_url = "/" %}{% endif %}{% endif %}
-      <button type="button" class="theme" id="theme-btn" aria-label="{{ trans(key='nav_theme', lang=lang) }}" data-label-system="{{ trans(key='theme_system', lang=lang) }}" data-label-light="{{ trans(key='theme_light', lang=lang) }}" data-label-dark="{{ trans(key='theme_dark', lang=lang) }}">{{ trans(key="theme_system", lang=lang) }}</button>
-      <a class="lang" href="{{ switch_url }}" data-lugha="{{ switch_lang }}" hreflang="{{ switch_lang }}" lang="{{ switch_lang }}">{{ trans(key="switch_to", lang=lang) }}</a>
+      <select class="pick theme-select" id="theme-select" aria-label="{{ trans(key='nav_theme', lang=lang) }}">
+        <option value="system">{{ trans(key="theme_system", lang=lang) }}</option>
+        <option value="light">{{ trans(key="theme_light", lang=lang) }}</option>
+        <option value="dark">{{ trans(key="theme_dark", lang=lang) }}</option>
+      </select>
+      <select class="pick lang-select" id="lang-select" aria-label="{{ trans(key='nav_language', lang=lang) }}">
+        <option value="{% if page %}{{ page.permalink | safe }}{% elif section %}{{ section.permalink | safe }}{% else %}{{ config.base_url | safe }}/{% endif %}" lang="{{ lang }}" selected>{{ trans(key="lang_name_" ~ lang, lang=lang) }}</option>
+        <option value="{{ switch_url | safe }}" lang="{{ switch_lang }}" data-lugha="{{ switch_lang }}">{{ trans(key="lang_name_" ~ switch_lang, lang=lang) }}</option>
+      </select>
     </nav>
   </div>
 </header>
@@ -58,5 +70,6 @@
 </footer>
 
 <script src="/site.js" defer></script>
+<script src="/alive.js" defer></script>
 </body>
 </html>
