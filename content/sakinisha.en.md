@@ -35,4 +35,4 @@ If it works, you see the output of `jumla(2, 3)`. When you are ready to write yo
 
 ## In the browser
 
-You do not need to install anything to try Asili. The [browser playground](/playground/) runs the sample programs directly in your browser.
+You do not need to install anything to try Asili. The [browser IDE](/ide/) runs the sample programs directly in your browser.

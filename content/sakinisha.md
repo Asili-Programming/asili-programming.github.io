@@ -34,4 +34,4 @@ Ikifanikiwa, utaona matokeo ya `jumla(2, 3)`. Ukiwa tayari kuandika programu yak
 
 ## Kwenye kivinjari
 
-Hutahitaji kusakinisha chochote ili kujaribu. [Uwanja wa kivinjari](/playground/) unaendesha programu za mfano moja kwa moja kwenye kivinjari chako.
+Hutahitaji kusakinisha chochote ili kujaribu. [IDE ya kivinjari](/ide/) unaendesha programu za mfano moja kwa moja kwenye kivinjari chako.

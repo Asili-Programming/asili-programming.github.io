@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Copies a built playground (asili-playground, after ./build.sh) into the site's output folder as
-# public/playground/. Run after `zola build`. The page's own files and every module it imports
+# public/ide/. Run after `zola build`. The page's own files and every module it imports
 # (followed from main.js through the imports of each module) are copied, so a new module needs no
 # change here. Only the files the page loads: the binary engine (not the base64 copy), the bundle,
 # and the page's own files.
@@ -8,7 +8,7 @@ set -euo pipefail
 
 playground="${1:?usage: copy_playground.sh <asili-playground dir> [public dir]}"
 public="${2:-$(cd "$(dirname "$0")/.." && pwd)/public}"
-target="$public/playground"
+target="$public/ide"
 
 # Files the page needs that are not JavaScript modules.
 static=(pkg/asili_wasm.js pkg/asili_wasm_bg.wasm index.html style.css favicon.svg vendor/codemirror.js samples/manifest.json logo-mark.svg manifest.webmanifest sw.js icons/icon-192.png icons/icon-512.png icons/icon-maskable-512.png)
@@ -39,8 +39,28 @@ done
 cp "$playground/index.html" "$playground/style.css" "$playground/favicon.svg" "$playground/logo-mark.svg" "$target/"
 cp "$playground/vendor/codemirror.js" "$target/vendor/"
 cp "$playground/samples/"*.as "$playground/samples/manifest.json" "$target/samples/"
-# The installable app: its manifest, its service worker (scope /playground/) and its icons.
+# The installable app: its manifest, its service worker (scope /ide/) and its icons.
 cp "$playground/manifest.webmanifest" "$playground/sw.js" "$target/"
 mkdir -p "$target/icons"
 cp "$playground/icons/"*.png "$target/icons/"
 echo "copied playground to $target: ${modules[*]}"
+
+# The old address (/playground/) forwards to the IDE, keeping its query and its share link (#k=).
+mkdir -p "$public/playground"
+cat > "$public/playground/index.html" <<'HTML'
+<!doctype html>
+<html lang="sw">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <meta http-equiv="refresh" content="0; url=/ide/" />
+  <link rel="canonical" href="/ide/" />
+  <title>Asili — IDE</title>
+  <script>location.replace("/ide/" + location.search + location.hash);</script>
+</head>
+<body>
+  <p><a href="/ide/">IDE ya Asili / Asili IDE</a></p>
+</body>
+</html>
+HTML
+echo "redirect: $public/playground -> /ide/"

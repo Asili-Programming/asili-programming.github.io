@@ -11,7 +11,7 @@ template = "index.html"
 <p class="eyebrow">Asili · Lugha ya programu</p>
 <h1>Andika programu kwa Kiswahili.</h1>
 <p class="lede">Asili ni lugha ya programu inayotumia Kiswahili kwa maneno yake ya msingi na maktaba yake ya kawaida. <strong>Pata</strong> ni zana yake: kikusanyaji, kiendeshi, nadhifu (kipangaji cha msimbo), kikagua msimbo na mwalimu (seva ya LSP kwa wahariri).</p>
-<p class="cta"><a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Anza sasa</a> <a class="btn ghost" href="/playground/">Uwanja wa kivinjari</a></p>
+<p class="cta"><a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Anza sasa</a> <a class="btn ghost" href="/ide/">IDE ya kivinjari</a></p>
 </div>
 </section>
 
@@ -30,7 +30,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 `kazi` (kazi), `weka` (tangaza thamani), `ikiwa` (sharti), `linganisha` (linganisha thamani), `rejesha` (rudisha matokeo), `leta` (ingiza moduli).
 
-[Programu zaidi za mfano (karibu, sifa, makosa) →](/playground/)
+[Programu zaidi za mfano (karibu, sifa, makosa) →](/ide/)
 
 ## Kwa nini Asili?
 
@@ -55,7 +55,7 @@ Muda wa mchakato mzima kwenye core moja, pamoja na takriban 3.3 ms za kuanzisha 
 ## Majukwaa yanayoungwa mkono
 
 - **x86-64 na AArch64**: msimbo asilia kupitia `pata jenga`.
-- **Kivinjari (wasm)**: moduli ya wasm inayoendesha uwanja wa kivinjari.
+- **Kivinjari (wasm)**: moduli ya wasm inayoendesha IDE ya kivinjari.
 - **Cortex-M**: msimbo wa `strict` kwa `pata jenga --lengo cortex-m`.
 
 ## Maktaba ya kawaida
@@ -85,7 +85,7 @@ Muda wa mchakato mzima kwenye core moja, pamoja na takriban 3.3 ms za kuanzisha 
 
 ## Kwa walimu
 
-Programu fupi za mfano zinazofaa somo moja ziko kwenye uwanja: `karibu` (ujumbe wa kwanza), `sifa` (sifa na mbinu) na `makosa` (makosa na jinsi ya kuyashughulikia). Kila mwanafunzi anaweza kufungua uwanja wa kivinjari na kuendesha msimbo bila kusakinisha chochote.
+Programu fupi za mfano zinazofaa somo moja ziko kwenye IDE: `karibu` (ujumbe wa kwanza), `sifa` (sifa na mbinu) na `makosa` (makosa na jinsi ya kuyashughulikia). Kila mwanafunzi anaweza kufungua IDE ya kivinjari na kuendesha msimbo bila kusakinisha chochote.
 
 ## Hali ya mradi
 

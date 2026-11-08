@@ -5,7 +5,7 @@ template = "page.html"
 slug = "learn"
 +++
 
-This page covers six core concepts. Each one has a short example that runs as written. Paste it into the [browser playground](/playground/) or into your own file, and run it. For the full details, follow the wiki link under each example.
+This page covers six core concepts. Each one has a short example that runs as written. Paste it into the [browser IDE](/ide/) or into your own file, and run it. For the full details, follow the wiki link under each example.
 
 ## 1. The program and `kuu`
 

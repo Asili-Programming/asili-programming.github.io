@@ -10,7 +10,7 @@ generate_feeds = false
 minify_html = false
 
 [markdown]
-# ```asili blocks are highlighted with syntaxes/asili.sublime-syntax (generated from the playground).
+# ```asili blocks are highlighted with syntaxes/asili.sublime-syntax (generated from the IDE).
 highlight_code = true
 highlight_theme = "css"
 extra_syntaxes_and_themes = ["syntaxes"]
@@ -20,7 +20,7 @@ extra_syntaxes_and_themes = ["syntaxes"]
 skip = "Ruka hadi maudhui"
 nav_label = "Menyu kuu"
 nav_learn = "Jifunze"
-nav_playground = "Uwanja"
+nav_playground = "IDE"
 nav_install = "Sakinisha"
 nav_docs = "Nyaraka"
 nav_github = "GitHub"
@@ -39,7 +39,7 @@ toast_close = "Funga tangazo"
 url_home = "/"
 url_learn = "/jifunze/"
 url_install = "/sakinisha/"
-url_playground = "/playground/"
+url_playground = "/ide/"
 url_docs = "https://github.com/Asili-Programming/Asili/wiki"
 url_github = "https://github.com/Asili-Programming/Asili"
 url_source_org = "https://github.com/Asili-Programming"
@@ -60,7 +60,7 @@ description = "Asili is a programming language that uses Swahili. Pata is its to
 skip = "Skip to content"
 nav_label = "Main"
 nav_learn = "Learn"
-nav_playground = "Playground"
+nav_playground = "IDE"
 nav_install = "Install"
 nav_docs = "Docs"
 nav_github = "GitHub"
@@ -79,7 +79,7 @@ toast_close = "Dismiss"
 url_home = "/en/"
 url_learn = "/en/learn/"
 url_install = "/en/install/"
-url_playground = "/playground/"
+url_playground = "/ide/"
 url_docs = "https://github.com/Asili-Programming/Asili/wiki"
 url_github = "https://github.com/Asili-Programming/Asili"
 url_source_org = "https://github.com/Asili-Programming"

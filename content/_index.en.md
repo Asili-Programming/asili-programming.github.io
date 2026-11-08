@@ -11,7 +11,7 @@ template = "index.html"
 <p class="eyebrow">Asili · A programming language</p>
 <h1>Write programs in Swahili.</h1>
 <p class="lede">Asili is a programming language whose keywords and standard library are in Swahili. <strong>Pata</strong> is its toolchain: compiler, runner, formatter (<em>nadhifu</em>), linter and language server (<em>mwalimu</em>).</p>
-<p class="cta"><a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Get started</a> <a class="btn ghost" href="/playground/">Browser playground</a></p>
+<p class="cta"><a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Get started</a> <a class="btn ghost" href="/ide/">Browser IDE</a></p>
 </div>
 </section>
 
@@ -30,7 +30,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 `kazi` (function), `weka` (let), `ikiwa` (if), `linganisha` (match), `rejesha` (return), `leta` (import a module).
 
-[More sample programs (karibu, sifa, makosa) →](/playground/)
+[More sample programs (karibu, sifa, makosa) →](/ide/)
 
 ## Why Asili?
 
@@ -55,7 +55,7 @@ Whole-process time on one core, including about 3.3 ms of process start-up. Thes
 ## Supported targets
 
 - **x86-64 and AArch64**: native code through `pata jenga`.
-- **Browser (wasm)**: a wasm module that runs the browser playground.
+- **Browser (wasm)**: a wasm module that runs the browser IDE.
 - **Cortex-M**: code marked `#[salama]` (strict) builds with `pata jenga --lengo cortex-m`.
 
 ## Standard library
@@ -85,7 +85,7 @@ Whole-process time on one core, including about 3.3 ms of process start-up. Thes
 
 ## For teachers
 
-Short sample programs that fit one lesson are in the playground: `karibu` (a first message), `sifa` (structs and methods) and `makosa` (errors and how to handle them). Every student can open the browser playground and run code without installing anything.
+Short sample programs that fit one lesson are in the IDE: `karibu` (a first message), `sifa` (structs and methods) and `makosa` (errors and how to handle them). Every student can open the browser IDE and run code without installing anything.
 
 ## Project status
 

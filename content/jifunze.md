@@ -4,7 +4,7 @@ description = "Dhana sita za Asili, kila moja na mfano unaoweza kuendesha na uku
 template = "page.html"
 +++
 
-Ukurasa huu unakupa dhana sita za msingi. Kila moja ina mfano mfupi unaokamilika: nakili kwenye [uwanja wa kivinjari](/playground/) au kwenye faili lako, kisha uendeshe. Ukitaka maelezo kamili, fuata kiungo cha wiki chini ya kila mfano.
+Ukurasa huu unakupa dhana sita za msingi. Kila moja ina mfano mfupi unaokamilika: nakili kwenye [IDE ya kivinjari](/ide/) au kwenye faili lako, kisha uendeshe. Ukitaka maelezo kamili, fuata kiungo cha wiki chini ya kila mfano.
 
 ## 1. Programu na `kuu`
 

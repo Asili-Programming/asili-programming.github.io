@@ -19,7 +19,7 @@ STATIC = ROOT / "static"
 PUBLIC = ROOT / "public"
 
 # Paths served by other repos' Pages deployments (see docs/02-technical-requirements.md).
-RESERVED = {"Asili", "asili-vscode", "asili-playground"}
+RESERVED = {"Asili", "asili-vscode", "asili-playground", "ide", "playground"}
 HOME_BUDGET_BYTES = 100 * 1024  # NFR-1: transferred home page under 100 KB
 # NFR-2: the playground's first load (gzip). Measured with the size-optimised engine build
 # (playground build.sh): engine 784,641 bytes, first load 891,065 bytes. The default release build
@@ -94,9 +94,9 @@ def check_build() -> list[str]:
 
 
 def check_playground() -> list[str]:
-    root = PUBLIC / "playground"
+    root = PUBLIC / "ide"
     if not (root / "index.html").exists():
-        return ["public/playground/ not found: run scripts/copy_playground.sh first"]
+        return ["public/ide/ not found: run scripts/copy_playground.sh first"]
     engine = root / "pkg" / "asili_wasm_bg.wasm"
     engine_size = transferred_bytes([engine])
     first_load = sorted(p for p in root.rglob("*") if p.is_file() and p.suffix in {".js", ".css", ".wasm"})
