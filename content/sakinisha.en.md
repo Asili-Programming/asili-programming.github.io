@@ -14,7 +14,7 @@ Pata is built from source for now. Binary packages have not been released yet.
 
 ## Build Pata
 
-Open a terminal and run these commands. They are the same on Linux, macOS and Windows (PowerShell).
+Open a terminal and run these commands. The commands are the same on Linux, macOS and Windows (PowerShell).
 
 ```bash
 git clone https://github.com/Asili-Programming/Asili.git
@@ -22,7 +22,7 @@ cd Asili
 cargo build --release -p pata-cli
 ```
 
-The `pata` binary is in `target/release/` (`target\release\pata.exe` on Windows). Add that folder to your `PATH` if you want.
+The `pata` binary is in `target/release/` (`target\release\pata.exe` on Windows). To run `pata` from any folder, add that folder to your `PATH`.
 
 ## Try your first program
 

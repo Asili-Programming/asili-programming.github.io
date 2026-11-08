@@ -56,7 +56,7 @@ Whole-process time on one core, including about 3.3 ms of process start-up. Thes
 
 - **x86-64 and AArch64**: native code through `pata jenga`.
 - **Browser (wasm)**: a wasm module that runs the browser playground.
-- **Cortex-M**: `strict` code for `pata jenga --lengo cortex-m`.
+- **Cortex-M**: code marked `#[salama]` (strict) builds with `pata jenga --lengo cortex-m`.
 
 ## Standard library
 
@@ -77,7 +77,7 @@ Whole-process time on one core, including about 3.3 ms of process start-up. Thes
 
 ## Pata, the Asili toolchain
 
-- `pata jenga`: builds native code. `pata jenga --tenda` builds and runs.
+- `pata jenga`: builds native code. `pata jenga --tenda` builds and runs the program.
 - `nadhifu`: formats your code in one consistent style.
 - `mwalimu`: the language server: completion, diagnostics and go-to-definition in editors.
 
@@ -95,7 +95,7 @@ Asili is at version **0.6.0** and still young. There are no binary packages yet;
 
 ## Contribute
 
-Asili is open source. Bug reports, examples and pull requests are welcome. Read [CONTRIBUTING.md](https://github.com/Asili-Programming/Asili/blob/main/CONTRIBUTING.md) before you start, and the [code of conduct](https://github.com/Asili-Programming/Asili/blob/main/CODE_OF_CONDUCT.md) that applies to everyone in the project.
+Asili is open source. Bug reports, examples and pull requests are welcome. Read [CONTRIBUTING.md](https://github.com/Asili-Programming/Asili/blob/main/CONTRIBUTING.md) before you start. Everyone in the project follows the [code of conduct](https://github.com/Asili-Programming/Asili/blob/main/CODE_OF_CONDUCT.md).
 
 - [Good first issues →](https://github.com/Asili-Programming/Asili/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 - [Open an issue →](https://github.com/Asili-Programming/Asili/issues)

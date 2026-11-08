@@ -5,7 +5,7 @@ template = "page.html"
 slug = "learn"
 +++
 
-This page covers six core concepts. Each has a short example that runs as it is: paste it into the [browser playground](/playground/) or into your own file, then run it. For the full details, follow the wiki link under each example.
+This page covers six core concepts. Each one has a short example that runs as written. Paste it into the [browser playground](/playground/) or into your own file, and run it. For the full details, follow the wiki link under each example.
 
 ## 1. The program and `kuu`
 
@@ -23,7 +23,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 ## 2. Values: `weka`
 
-`weka` declares a named value. You can store text (`Neno`) or a number (`Namba`). Use `kama` to turn a number into text.
+`weka` declares a named value. You can store text (`Neno`) or a number (`Namba`). Use `kama` to convert a number to text.
 
 ```asili
 leta matumizi
@@ -40,7 +40,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 ## 3. Conditions and loops
 
-`ikiwa` and `vinginevyo` choose which path to take. `kwa ... kutoka ... hadi` repeats the body for each number in a range.
+`ikiwa` and `vinginevyo` choose which path to run. `kwa ... kutoka ... hadi` repeats the block once for each number in the range.
 
 ```asili
 leta matumizi
@@ -78,7 +78,7 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 ## 5. Structs and `umbo`
 
-`umbo` defines a struct with named fields. Create a value by writing the struct name and its fields in braces `{ }`.
+`umbo` defines a struct with named fields. Create a value by writing the struct name, then its fields in braces `{ }`.
 
 ```asili
 leta matumizi
@@ -117,4 +117,4 @@ kazi kuu(hoja: Orodha<Neno>) -> Tupu {
 
 [Read more in the wiki →](https://github.com/Asili-Programming/Asili/wiki/Error-Handling)
 
-That is the six concepts. The next step is to [install Pata](/en/install/).
+That covers the six concepts. The next step is to [install Pata](/en/install/).
