@@ -13,8 +13,9 @@ target="$public/playground"
 # Files the page needs that are not JavaScript modules.
 static=(pkg/asili_wasm.js pkg/asili_wasm_bg.wasm index.html style.css favicon.svg vendor/codemirror.js samples/manifest.json logo-mark.svg)
 
-# The modules reachable from main.js: each `from "./x.js"` import, followed transitively.
-modules=(main.js)
+# The modules reachable from main.js and from worker.js (the page starts the worker by URL, so it is
+# not an import of main.js): each `from "./x.js"` import, followed transitively.
+modules=(main.js worker.js)
 for ((i = 0; i < ${#modules[@]}; i++)); do
   file="${modules[$i]}"
   [ -f "$playground/$file" ] || { echo "missing $playground/$file" >&2; exit 1; }
