@@ -14,6 +14,13 @@
   --code-bg: #e6e5df;
   --focus: #8a5a2e;
   --measure: 68ch;
+  /* Code colours: each pairs with --code-bg at 4.5:1 or more (checked with the brief's method). */
+  --code-kw: #8a5a2e;
+  --code-type: #485028;
+  --code-str: #3d5a24;
+  --code-num: #8a5a2e;
+  --code-com: #5e5d55;
+  --code-fn: #2a2a26;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -28,6 +35,12 @@
     --line: #3a3b32;
     --code-bg: #22231d;
     --focus: #e0aa74;
+    --code-kw: #e0aa74;
+    --code-type: #a9bb72;
+    --code-str: #c3d68e;
+    --code-num: #e0aa74;
+    --code-com: #a8a69c;
+    --code-fn: #ecebe4;
   }
 }
 :root[data-theme="dark"] {
@@ -42,4 +55,10 @@
   --line: #3a3b32;
   --code-bg: #22231d;
   --focus: #e0aa74;
+  --code-kw: #e0aa74;
+  --code-type: #a9bb72;
+  --code-str: #c3d68e;
+  --code-num: #e0aa74;
+  --code-com: #a8a69c;
+  --code-fn: #ecebe4;
 }

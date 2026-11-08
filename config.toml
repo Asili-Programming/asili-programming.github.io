@@ -10,7 +10,10 @@ generate_feeds = false
 minify_html = false
 
 [markdown]
-highlight_code = false
+# ```asili blocks are highlighted with syntaxes/asili.sublime-syntax (generated from the playground).
+highlight_code = true
+highlight_theme = "css"
+extra_syntaxes_and_themes = ["syntaxes"]
 
 # Interface strings. Templates read them with trans(key=..., lang=lang); no string lives in a template.
 [translations]

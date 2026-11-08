@@ -38,6 +38,17 @@ main { padding-bottom: 24px; }
 .prose code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
 .prose pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; font-size: 16px; line-height: 1.5; margin: 0 0 16px; }
 .prose pre code { background: none; padding: 0; font-size: inherit; }
+/* A labelled panel, so a block reads as code at a glance (the language name comes from the fence). */
+.prose pre[data-lang] { position: relative; padding-top: 30px; border-left: 4px solid var(--olive); }
+.prose pre[data-lang]::before { content: attr(data-lang); position: absolute; top: 6px; left: 14px; font: 600 0.72rem/1 system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; color: var(--copper-text); }
+/* Token colours from the Asili syntax (syntaxes/asili.sublime-syntax, via Zola's CSS classes). */
+.z-keyword { color: var(--code-kw); font-weight: 600; }
+.z-storage.z-type, .z-entity.z-name.z-type { color: var(--code-type); font-weight: 600; }
+.z-string { color: var(--code-str); }
+.z-constant.z-numeric { color: var(--code-num); }
+.z-comment { color: var(--code-com); font-style: italic; }
+.z-entity.z-name.z-function { color: var(--code-fn); }
+@media (max-width: 480px) { .prose pre { font-size: 14px; } }
 .prose table { border-collapse: collapse; width: 100%; max-width: 560px; font-size: 0.95rem; }
 .prose th, .prose td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); }
 .prose th { color: var(--muted); font-weight: 600; }

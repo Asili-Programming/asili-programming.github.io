@@ -15,7 +15,7 @@ Pata hujengwa kutoka chanzo kwa sasa. Vifurushi vya binary bado havijatolewa.
 
 Fungua terminal, kisha endesha amri hizi. Ni zile zile kwenye Linux, macOS na Windows (PowerShell).
 
-```
+```bash
 git clone https://github.com/Asili-Programming/Asili.git
 cd Asili
 cargo build --release -p pata-cli
@@ -25,7 +25,7 @@ Binary ya `pata` iko kwenye `target/release/` (`target\release\pata.exe` kwenye 
 
 ## Jaribu programu ya kwanza
 
-```
+```bash
 cd examples/asi_sample
 cargo run -p pata-cli -- jenga --tenda
 ```
