@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-{% if section.path == "/" and lang == "sw" %}<p class="alt-lang"><a href="/en/">{{ trans(key="read_english", lang="sw") }}</a></p>{% endif %}
+{% if section.path == "/" and lang == "sw" %}<aside class="toast" id="toast" role="status" hidden>
+  <a href="/en/">{{ trans(key="read_english", lang="sw") }}</a>
+  <button type="button" class="toast-close" id="toast-close" aria-label="{{ trans(key='toast_close', lang="sw") }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+  </button>
+</aside>{% endif %}
 <article class="prose">
 {{ section.content | safe }}
 </article>

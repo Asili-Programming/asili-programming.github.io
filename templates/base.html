@@ -31,7 +31,12 @@
 <header class="top">
   <div class="wrap bar">
     <a class="brand" href="{{ trans(key='url_home', lang=lang) }}"><img class="logo" src="/logo-mark.svg" alt="" width="30" height="33">Asili</a>
-    <nav aria-label="{{ trans(key='nav_label', lang=lang) }}">
+    <button type="button" class="menu-btn" id="menu-btn" aria-controls="menu" aria-expanded="false" aria-label="{{ trans(key='menu_open', lang=lang) }}" data-open-label="{{ trans(key='menu_open', lang=lang) }}" data-close-label="{{ trans(key='menu_close', lang=lang) }}">
+      <svg class="i-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+      <svg class="i-close" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+    </button>
+    <div class="menu-backdrop" id="menu-backdrop" hidden></div>
+    <nav id="menu" aria-label="{{ trans(key='nav_label', lang=lang) }}">
       <a href="{{ trans(key='url_learn', lang=lang) }}">{{ trans(key="nav_learn", lang=lang) }}</a>
       <a href="{{ trans(key='url_playground', lang=lang) }}">{{ trans(key="nav_playground", lang=lang) }}</a>
       <a href="{{ trans(key='url_install', lang=lang) }}">{{ trans(key="nav_install", lang=lang) }}</a>
