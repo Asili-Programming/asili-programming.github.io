@@ -4,19 +4,15 @@ description = "Asili ni lugha ya programu inayotumia Kiswahili. Pata ni zana yak
 template = "index.html"
 +++
 
-<section class="hero">
-
+<section class="hero-stage" data-hero>
+<picture class="hero-art"><source type="image/webp" srcset="/hero-banner-900.webp 900w, /hero-banner-1200.webp 1200w" sizes="100vw"><img src="/hero-banner-1200.webp" width="1200" height="538" alt="" fetchpriority="high"></picture>
+<canvas class="hero-particles" aria-hidden="true"></canvas>
+<div class="hero-copy">
 <p class="eyebrow">Asili · Lugha ya programu</p>
-
-# Andika programu kwa Kiswahili.
-
-Asili ni lugha ya programu inayotumia Kiswahili kwa maneno yake ya msingi na maktaba yake ya kawaida. <strong>Pata</strong> ni zana yake: kikusanyaji, kiendeshi, nadhifu (kipangaji cha msimbo), kikagua msimbo na mwalimu (seva ya LSP kwa wahariri).
-
-<p class="cta">
-<a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Anza sasa</a>
-<a class="btn ghost" href="/playground/">Uwanja wa kivinjari</a>
-</p>
-
+<h1>Andika programu kwa Kiswahili.</h1>
+<p class="lede">Asili ni lugha ya programu inayotumia Kiswahili kwa maneno yake ya msingi na maktaba yake ya kawaida. <strong>Pata</strong> ni zana yake: kikusanyaji, kiendeshi, nadhifu (kipangaji cha msimbo), kikagua msimbo na mwalimu (seva ya LSP kwa wahariri).</p>
+<p class="cta"><a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Anza sasa</a> <a class="btn ghost" href="/playground/">Uwanja wa kivinjari</a></p>
+</div>
 </section>
 
 ## Programu ya kwanza

@@ -4,19 +4,15 @@ description = "Asili is a programming language that uses Swahili. Pata is its to
 template = "index.html"
 +++
 
-<section class="hero">
-
+<section class="hero-stage" data-hero>
+<picture class="hero-art"><source type="image/webp" srcset="/hero-banner-900.webp 900w, /hero-banner-1200.webp 1200w" sizes="100vw"><img src="/hero-banner-1200.webp" width="1200" height="538" alt="" fetchpriority="high"></picture>
+<canvas class="hero-particles" aria-hidden="true"></canvas>
+<div class="hero-copy">
 <p class="eyebrow">Asili · A programming language</p>
-
-# Write programs in Swahili.
-
-Asili is a programming language whose keywords and standard library are in Swahili. <strong>Pata</strong> is its toolchain: compiler, runner, formatter (<em>nadhifu</em>), linter and language server (<em>mwalimu</em>).
-
-<p class="cta">
-<a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Get started</a>
-<a class="btn ghost" href="/playground/">Browser playground</a>
-</p>
-
+<h1>Write programs in Swahili.</h1>
+<p class="lede">Asili is a programming language whose keywords and standard library are in Swahili. <strong>Pata</strong> is its toolchain: compiler, runner, formatter (<em>nadhifu</em>), linter and language server (<em>mwalimu</em>).</p>
+<p class="cta"><a class="btn primary" href="https://github.com/Asili-Programming/Asili/wiki/Getting-Started">Get started</a> <a class="btn ghost" href="/playground/">Browser playground</a></p>
+</div>
 </section>
 
 ## A first program
