@@ -73,3 +73,8 @@ Until Pages is switched to the GitHub Actions source, the live site is still ser
 - [Asili-Programming/Asili](https://github.com/Asili-Programming/Asili): the language, the wiki and the spec.
 - [Asili-Programming/asili-vscode](https://github.com/Asili-Programming/asili-vscode): the VS Code extension.
 - [Asili-Programming/asili-playground](https://github.com/Asili-Programming/asili-playground): the browser playground.
+
+## License
+
+The original site content and code are licensed under GNU GPL v2.0 only; see [LICENSE](LICENSE).
+Third-party components and assets retain the licenses and notices shipped with them.
